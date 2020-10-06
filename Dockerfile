@@ -8,7 +8,7 @@ RUN git clone git://github.com/novnc/noVNC /build/noVNC && \
     git clone https://github.com/novnc/websockify /build/noVNC/utils/websockify && \
     sed -ie 's/python\s/python3 /g' /build/noVNC/utils/websockify/run
 
-RUN curl -O https://ipafont.ipa.go.jp/IPAfont/IPAfont00303.zip && \
+RUN curl -O http://moji.or.jp/wp-content/ipafont/IPAfont/IPAfont00303.zip && \
     unzip IPAfont00303.zip -d /build/
 
 RUN echo -ne '\
