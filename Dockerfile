@@ -11,10 +11,9 @@ RUN git clone git://github.com/novnc/noVNC /build/noVNC && \
 RUN curl -O http://moji.or.jp/wp-content/ipafont/IPAfont/IPAfont00303.zip && \
     unzip IPAfont00303.zip -d /build/
 
-RUN echo -ne '\
-    \#!/bin/bash\n\
-    if [ "${REQ}" == "" ]; then\n\
-      REQ="google.com";\n\
+RUN echo -ne '#!/bin/bash \n\
+    if [ "${REQ}" == "" ]; then \n\
+      REQ="google.com"; \n\
     fi \n\
     mkdir ~/.fluxbox \n\
     echo 'session.screen0.toolbar.visible: false' >> ~/.fluxbox/init \n\
@@ -24,20 +23,20 @@ RUN echo -ne '\
     ((timeout 1 firefox -headless; exit 0)) \n\
     pref=`find ~/.mozilla/firefox/ -iname "*.default-default"` \n\
     ~/build/noVNC/utils/launch.sh \n\
-    Xvfb :1 -screen 0 1920x920x24 &\n\
-    fluxbox &\n\
-    /usr/bin/ibus-daemon -dr &\n\
-    dconf load / < ~/build/dconf &\n\
-    firefox --kiosk $REQ &\n\
-    echo -ne '\''\n\
-    user_pref("font.language.group", "ja");\n\
-    user_pref("font.name.monospace.ja", "IPAPGothic");\n\
-    user_pref("font.name.sans-serif.ja", "IPAPGothic");\n\
-    user_pref("font.name.serif.ja", "IPAMincho");\n\
-    user_pref("general.autoScroll", true);\n\
+    Xvfb :1 -screen 0 1920x920x24 & \n\
+    fluxbox & \n\
+    /usr/bin/ibus-daemon -dr & \n\
+    dconf load / < ~/build/dconf & \n\
+    firefox --kiosk $REQ & \n\
+    echo -ne '\'' \n\
+    user_pref("font.language.group", "ja"); \n\
+    user_pref("font.name.monospace.ja", "IPAPGothic"); \n\
+    user_pref("font.name.sans-serif.ja", "IPAPGothic"); \n\
+    user_pref("font.name.serif.ja", "IPAMincho"); \n\
+    user_pref("general.autoScroll", true); \n\
     user_pref("general.smoothScroll", false);'\'' >> $pref/prefs.js \n\
     x11vnc -display :1' \
-    > /build/exec.sh &&\
+    > /build/exec.sh && \
     chmod 755 /build/exec.sh
 
 COPY ibus.dconf /build/dconf
