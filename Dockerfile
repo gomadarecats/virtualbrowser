@@ -1,12 +1,12 @@
 FROM alpine:latest as build
 
-RUN apk add --no-cache -U \
+RUN apk update && \
+    apk add --no-cache -U \
             git \
             curl
 
 RUN git clone git://github.com/novnc/noVNC /build/noVNC && \
-    git clone https://github.com/novnc/websockify /build/noVNC/utils/websockify && \
-    sed -ie 's/python\s/python3 /g' /build/noVNC/utils/websockify/run
+    git clone git://github.com/novnc/websockify /build/noVNC/utils/websockify
 
 RUN curl -O http://moji.or.jp/wp-content/ipafont/IPAfont/IPAfont00303.zip && \
     unzip IPAfont00303.zip -d /build/
@@ -22,7 +22,7 @@ RUN echo -ne '#!/bin/bash \n\
     fc-cache -fv \n\
     ((timeout 1 firefox -headless; exit 0)) \n\
     pref=`find ~/.mozilla/firefox/ -iname "*.default-default"` \n\
-    ~/build/noVNC/utils/launch.sh \n\
+    ~/build/noVNC/utils/novnc_proxy \n\
     Xvfb :1 -screen 0 1920x920x24 & \n\
     fluxbox & \n\
     /usr/bin/ibus-daemon -dr & \n\
@@ -45,7 +45,8 @@ COPY ibus.dconf /build/dconf
 
 FROM alpine:latest as browser
 
-RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> etc/apk/repositories && \
+RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
+    apk update && \
     apk add --no-cache -U \
             fluxbox \
             xvfb \
