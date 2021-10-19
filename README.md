@@ -8,3 +8,7 @@ docker run --rm -d -p port:6080 tag/iamge
 ```
 docker run --rm -d -p port:6080 -e REQ="www.example.com" tag/iamge
 ```
+
+```
+./virtualbrowser/run.sh www.example.com
+```
