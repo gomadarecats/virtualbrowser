@@ -11,7 +11,7 @@ RUN mkdir /build && \
     cd /build/noVNC/utils/ && \
     git clone https://github.com/novnc/websockify
 
-RUN curl -O http://moji.or.jp/wp-content/ipafont/IPAfont/IPAfont00303.zip && \
+RUN curl -O https://moji.or.jp/wp-content/ipafont/IPAfont/IPAfont00303.zip && \
     unzip IPAfont00303.zip -d /build/
 
 RUN echo -ne '#!/bin/bash\n \
@@ -25,12 +25,6 @@ RUN echo -ne '#!/bin/bash\n \
      fc-cache -fv\n \
      ((timeout 1 firefox -headless; exit 0))\n \
      pref=`find ~/.mozilla/firefox/ -iname "*.default-default"`\n \
-     ~/build/noVNC/utils/novnc_proxy\n \
-     Xvfb :1 -screen 0 1920x920x24 &\n \
-     fluxbox &\n \
-     /usr/bin/ibus-daemon -dr &\n \
-     dconf load / < ~/build/dconf &\n \
-     firefox --kiosk $REQ &\n \
      echo -ne '\''\n \
      user_pref("font.language.group", "ja");\n \
      user_pref("font.name.monospace.ja", "IPAPGothic");\n \
@@ -38,6 +32,12 @@ RUN echo -ne '#!/bin/bash\n \
      user_pref("font.name.serif.ja", "IPAMincho");\n \
      user_pref("general.autoScroll", true);\n \
      user_pref("general.smoothScroll", false);'\'' >> $pref/prefs.js\n \
+     ~/build/noVNC/utils/novnc_proxy\n \
+     Xvfb :1 -screen 0 1920x920x24 &\n \
+     fluxbox &\n \
+     /usr/bin/ibus-daemon -dr\n \
+     dconf load / < ~/build/dconf\n \
+     firefox --kiosk $REQ &\n \
      x11vnc -display :1' \
     > /build/exec.sh && \
     chmod 755 /build/exec.sh
@@ -80,4 +80,3 @@ ENV DISPLAY=:1 \
     QT_IM_MODULE=ibus
 
 EXPOSE 6080
-
