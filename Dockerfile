@@ -32,7 +32,7 @@ RUN echo -ne '#!/bin/bash\n \
      user_pref("font.name.serif.ja", "IPAMincho");\n \
      user_pref("general.autoScroll", true);\n \
      user_pref("general.smoothScroll", false);'\'' >> $pref/prefs.js\n \
-     ~/build/noVNC/utils/novnc_proxy\n \
+     ~/build/noVNC/utils/novnc_proxy &\n \
      Xvfb :1 -screen 0 1920x920x24 &\n \
      fluxbox &\n \
      /usr/bin/ibus-daemon -dr\n \
